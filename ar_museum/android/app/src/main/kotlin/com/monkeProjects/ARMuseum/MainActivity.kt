@@ -1,4 +1,4 @@
-package com.example.ar_museum
+package com.monkeProjects.ARMuseum
 
 import io.flutter.embedding.android.FlutterActivity
 
