@@ -86,12 +86,14 @@ class _QRScanState extends State<QRScanScreen> {
     });
     final subscription = controller.scannedDataStream.listen(null);
     subscription.onData((event) {
-      subscription.cancel();
-      controller.stopCamera();
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const ARScreen(modelPath : "test")),
-      );
+      if(event.code != null) {
+        subscription.cancel();
+        controller.stopCamera();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ARScreen(modelPath : event.code!)),
+        );
+      }
     });
   }
 

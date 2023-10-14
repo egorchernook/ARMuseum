@@ -23,8 +23,8 @@ import 'package:flutter_archive/flutter_archive.dart';
 
 class ARScreen extends StatefulWidget
 {
-  final String modelPath;
-  const ARScreen({Key? key, required this.modelPath}) : super(key: key);
+  String modelPath;
+  ARScreen({Key? key, required this.modelPath}) : super(key: key);
 
   @override
   State<ARScreen> createState() => _ARScreenState(modelPath : this.modelPath);
