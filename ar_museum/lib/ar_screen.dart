@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
-import 'package:vector_math/vector_math_64.dart' hide Colors;
+import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 
 import 'model_info.dart';
 
@@ -16,7 +13,10 @@ class ARScreen extends StatefulWidget
 }
 
 class _ARScreenState extends State<ARScreen> {
-
+  late UnityWidgetController unityWidgetController;
+  void onUnityCreated(controller) {
+    unityWidgetController = controller;
+  }
 
   @override
   void dispose() {
@@ -38,13 +38,24 @@ class _ARScreenState extends State<ARScreen> {
         appBar: AppBar(
           title: const Text(_title),
         ),
-        body: Stack(children: [
-          // ARView(
-          //   onARViewCreated: onARViewCreated,
-          //   planeDetectionConfig: PlaneDetectionConfig.horizontalAndVertical,
-          // ),
-          widget.modelInfo
-        ]),
+        body: SafeArea(
+          child: Stack(
+            children: [
+              WillPopScope(
+               onWillPop: () {
+                  // Pop the category page if Android back button is pressed.
+                },
+                child: Container(
+                  color: Colors.yellow,
+                  child: UnityWidget(
+                    onUnityCreated: onUnityCreated,
+                  ),
+                ),
+              ),
+              widget.modelInfo
+            ]
+          ),
+        ),
       ),
     );
   }
