@@ -1,10 +1,25 @@
 import 'dart:developer';
 
+import 'package:ar_museum/model_info.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_archive/flutter_archive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'dart:io' show Platform;
+import 'dart:io' show Directory, File, HttpClient, Platform;
 
 import 'ar_screen.dart';
+
+/// ТОТАЛЬНЫЙ УРОДСК
+/// ПОФИКСИТЬ
+
+class ModelData {
+  String? modelDescription;
+  String? audioPath;
+  List<String>? images;
+
+  ModelData(this.modelDescription, this.audioPath, this.images);
+}
 
 class QRScanScreen extends StatefulWidget
 {
@@ -17,6 +32,7 @@ class QRScanScreen extends StatefulWidget
 class _QRScanState extends State<QRScanScreen> {
   Barcode? result;
   QRViewController? controller;
+  HttpClient? httpClient;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   @override
@@ -30,6 +46,7 @@ class _QRScanState extends State<QRScanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    httpClient = HttpClient();
     return Scaffold(
       body:  _buildQrView(context)
     );
@@ -83,9 +100,12 @@ class _QRScanState extends State<QRScanScreen> {
       if(event.code != null) {
         subscription.cancel();
         controller.stopCamera();
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ARScreen(modelPath : event.code!)),
+        _downloadAndUnpack("http://176.214.3.242:34/${event.code!}",
+            "Archive.zip").then((value) =>
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ModelInfo(images: value.images!, desription: value.modelDescription!)),
+            )
         );
       }
     });
@@ -98,6 +118,41 @@ class _QRScanState extends State<QRScanScreen> {
         const SnackBar(content: Text('no Permission')),
       );
     }
+  }
+
+  Future<ModelData> _downloadAndUnpack(String url, String filename) async {
+    var request = await httpClient!.getUrl(Uri.parse(url));
+    var response = await request.close();
+    var bytes = await consolidateHttpClientResponseBytes(response);
+    String dir = (await getApplicationDocumentsDirectory()).path;
+
+    File file = File("$dir/$filename");
+    file.writeAsBytesSync(bytes);
+    if (kDebugMode) {
+      print("Downloading finished, path: $dir/$filename");
+    }
+
+    try {
+      await ZipFile.extractToDirectory(
+          zipFile: File("$dir/$filename"), destinationDir: Directory(dir).absolute);
+      if (kDebugMode) {
+        print("Unzipping successful");
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Unzipping failed: $e");
+      }
+    }
+
+    // Read model description
+    String contents = File("$dir/Description.txt").readAsStringSync();
+    List<String> imagePaths = [];
+
+    Directory imageDir = Directory("$dir/images");
+    await imageDir.list(recursive: false).forEach((element) {
+      imagePaths.add(element.path);
+    });
+    return ModelData(contents, "", imagePaths);
   }
 
   @override
