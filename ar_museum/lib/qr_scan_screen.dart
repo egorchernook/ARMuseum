@@ -20,8 +20,7 @@ class ModelData {
   ModelData(this.modelDescription, this.audioPath, this.images);
 }
 
-class QRScanScreen extends StatefulWidget
-{
+class QRScanScreen extends StatefulWidget {
   const QRScanScreen({Key? key}) : super(key: key);
 
   @override
@@ -46,32 +45,27 @@ class _QRScanState extends State<QRScanScreen> {
   @override
   Widget build(BuildContext context) {
     httpClient = HttpClient();
-    return Scaffold(
-        body:  IgnorePointer(
-            child: _buildQrView(context)
-        )
-    );
+    return Scaffold(body: IgnorePointer(child: _buildQrView(context)));
   }
 
   Widget _buildQrView(BuildContext context) {
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
-        MediaQuery.of(context).size.height < 400)
+            MediaQuery.of(context).size.height < 400)
         ? 150.0
         : 280.0;
-    return Stack(
-      children: [
-        QRView(
-          key: qrKey,
-          onQRViewCreated: _onQRViewCreated,
-          overlay: QrScannerOverlayShape(
-              borderColor: Colors.red,
-              borderRadius: 10,
-              borderLength: 30,
-              borderWidth: 5,
-              cutOutSize: scanArea),
-          onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
-        ),
-        Align(
+    return Stack(children: [
+      QRView(
+        key: qrKey,
+        onQRViewCreated: _onQRViewCreated,
+        overlay: QrScannerOverlayShape(
+            borderColor: Colors.red,
+            borderRadius: 10,
+            borderLength: 30,
+            borderWidth: 5,
+            cutOutSize: scanArea),
+        onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+      ),
+      Align(
           alignment: Alignment.bottomCenter,
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -83,13 +77,10 @@ class _QRScanState extends State<QRScanScreen> {
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
-                  fontSize: 30
-              ),
+                  fontSize: 30),
             ),
-          )
-        )
-      ]
-    );
+          ))
+    ]);
   }
 
   void _onQRViewCreated(QRViewController controller) {
@@ -98,16 +89,19 @@ class _QRScanState extends State<QRScanScreen> {
     });
     final subscription = controller.scannedDataStream.listen(null);
     subscription.onData((event) {
-      if(event.code != null) {
+      if (event.code != null) {
         subscription.cancel();
         controller.stopCamera();
-        _downloadAndUnpack("http://176.214.3.242:34/${event.code!}",
-            "Archive.zip").then((value) =>
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ARScreen(modelInfo: ModelInfo(images: value.images!, desription: value.modelDescription!))),
-            )
-        );
+        _downloadAndUnpack(
+                "http://176.214.3.242:34/${event.code!}", "Archive.zip")
+            .then((value) => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ModelInfo(
+                          images: value.images!,
+                          desription: value.modelDescription!,
+                          audioPath: value.audioPath!)),
+                ));
       }
     });
   }
@@ -135,7 +129,8 @@ class _QRScanState extends State<QRScanScreen> {
 
     try {
       await ZipFile.extractToDirectory(
-          zipFile: File("$dir/$filename"), destinationDir: Directory(dir).absolute);
+          zipFile: File("$dir/$filename"),
+          destinationDir: Directory(dir).absolute);
       if (kDebugMode) {
         print("Unzipping successful");
       }
@@ -156,7 +151,8 @@ class _QRScanState extends State<QRScanScreen> {
 
     try {
       await ZipFile.extractToDirectory(
-          zipFile: File("$dir/gltfModel_ver3.zip"), destinationDir: Directory(dir).absolute);
+          zipFile: File("$dir/gltfModel_ver3.zip"),
+          destinationDir: Directory(dir).absolute);
       if (kDebugMode) {
         print("Unzipping successful");
       }
