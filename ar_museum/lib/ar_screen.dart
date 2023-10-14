@@ -8,12 +8,13 @@ import 'package:ar_flutter_plugin/managers/ar_session_manager.dart';
 import 'package:ar_flutter_plugin/models/ar_anchor.dart';
 import 'package:ar_flutter_plugin/models/ar_hittest_result.dart';
 import 'package:ar_flutter_plugin/models/ar_node.dart';
+import 'package:ar_museum/qr_scan_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ar_flutter_plugin/ar_flutter_plugin.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:vector_math/vector_math_64.dart';
+import 'package:vector_math/vector_math_64.dart' hide Colors;
 
 class ARScreen extends StatefulWidget
 {
@@ -24,6 +25,7 @@ class ARScreen extends StatefulWidget
 }
 
 class _ARScreenState extends State<ARScreen> {
+  final PageController _pageController = PageController();
   ARSessionManager? arSessionManager;
   ARObjectManager? arObjectManager;
   ARAnchorManager? arAnchorManager;
@@ -68,18 +70,47 @@ class _ARScreenState extends State<ARScreen> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text(_title),
+          // actions: [
+          //   IconButton(onPressed: () {
+          //     Navigator.push(context, MaterialPageRoute(builder: (c)=> const QRScanScreen()));
+          //   }, icon: const Icon(
+          //     Icons.qr_code_rounded,
+          //     color: Colors.white,
+          //   ))
+          // ],
         ),
-        body: Container(
-          child: Stack(children: [
+        body: PageView(
+          controller: _pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
             ARView(
-              onARViewCreated: onARViewCreated,
-              planeDetectionConfig: PlaneDetectionConfig.horizontalAndVertical,
-            ),
-          ]),
+                onARViewCreated: onARViewCreated,
+                planeDetectionConfig: PlaneDetectionConfig.horizontalAndVertical,
+              ),
+            const QRScanScreen(),
+          ],
         ),
+
+        // body: Stack(children: [
+        //   ARView(
+        //     onARViewCreated: onARViewCreated,
+        //     planeDetectionConfig: PlaneDetectionConfig.horizontalAndVertical,
+        //   ),
+        //   Align(
+        //     alignment: FractionalOffset.bottomCenter,
+        //     child: Row(
+        //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //         children: [
+        //           ElevatedButton(
+        //               onPressed: onRemoveEverything,
+        //               child: const Text("Remove Everything")),
+        //         ]),
+        //   )
+        // ]),
       ),
     );
   }
+
   void onARViewCreated(
       ARSessionManager arSessionManager,
       ARObjectManager arObjectManager,
@@ -92,8 +123,8 @@ class _ARScreenState extends State<ARScreen> {
     this.arSessionManager!.onInitialize(
       showFeaturePoints: false,
       showPlanes: true,
-      customPlaneTexturePath: "Images/triangle.png",
-      showWorldOrigin: true,
+      // customPlaneTexturePath: "Images/triangle.png",
+      showWorldOrigin: false,
     );
     this.arObjectManager!.onInitialize();
 
@@ -101,9 +132,16 @@ class _ARScreenState extends State<ARScreen> {
     this.arObjectManager!.onNodeTap = onNodeTapped;
   }
 
+  Future<void> onRemoveEverything() async {
+    for (var anchor in anchors) {
+      arAnchorManager!.removeAnchor(anchor);
+    }
+    anchors = [];
+  }
+
   Future<void> onNodeTapped(List<String> nodes) async {
     var number = nodes.length;
-    this.arSessionManager!.onError("Tapped $number node(s)");
+    arSessionManager!.onError("Tapped $number node(s)");
   }
 
   Future<void> onPlaneOrPointTapped(
@@ -112,9 +150,9 @@ class _ARScreenState extends State<ARScreen> {
             (hitTestResult) => hitTestResult.type == ARHitTestResultType.plane);
     var newAnchor =
     ARPlaneAnchor(transformation: singleHitTestResult.worldTransform);
-    bool? didAddAnchor = await this.arAnchorManager!.addAnchor(newAnchor);
+    bool? didAddAnchor = await arAnchorManager!.addAnchor(newAnchor);
     if (didAddAnchor!) {
-      this.anchors.add(newAnchor);
+      anchors.add(newAnchor);
       // Add note to anchor
       var newNode = ARNode(
           type: NodeType.webGLB,
@@ -123,14 +161,14 @@ class _ARScreenState extends State<ARScreen> {
           position: Vector3(0.0, 0.0, 0.0),
           rotation: Vector4(1.0, 0.0, 0.0, 0.0));
       bool? didAddNodeToAnchor =
-      await this.arObjectManager!.addNode(newNode, planeAnchor: newAnchor);
+      await arObjectManager!.addNode(newNode, planeAnchor: newAnchor);
       if (didAddNodeToAnchor!) {
-        this.nodes.add(newNode);
+        nodes.add(newNode);
       } else {
-        this.arSessionManager!.onError("Adding Node to Anchor failed");
+        arSessionManager!.onError("Adding Node to Anchor failed");
       }
     } else {
-      this.arSessionManager!.onError("Adding Anchor failed");
+      arSessionManager!.onError("Adding Anchor failed");
     }
     }
 }
