@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ar_museum/ar_screen.dart';
 import 'package:ar_museum/model_info.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,6 @@ import 'package:flutter_archive/flutter_archive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'dart:io' show Directory, File, HttpClient, Platform;
-
-import 'ar_screen.dart';
 
 /// ТОТАЛЬНЫЙ УРОДСК
 /// ПОФИКСИТЬ
@@ -48,7 +47,9 @@ class _QRScanState extends State<QRScanScreen> {
   Widget build(BuildContext context) {
     httpClient = HttpClient();
     return Scaffold(
-      body:  _buildQrView(context)
+        body:  IgnorePointer(
+            child: _buildQrView(context)
+        )
     );
   }
 
@@ -104,7 +105,7 @@ class _QRScanState extends State<QRScanScreen> {
             "Archive.zip").then((value) =>
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ModelInfo(images: value.images!, desription: value.modelDescription!)),
+              MaterialPageRoute(builder: (context) => ARScreen(modelInfo: ModelInfo(images: value.images!, desription: value.modelDescription!))),
             )
         );
       }
@@ -152,6 +153,19 @@ class _QRScanState extends State<QRScanScreen> {
     await imageDir.list(recursive: false).forEach((element) {
       imagePaths.add(element.path);
     });
+
+    try {
+      await ZipFile.extractToDirectory(
+          zipFile: File("$dir/gltfModel_ver3.zip"), destinationDir: Directory(dir).absolute);
+      if (kDebugMode) {
+        print("Unzipping successful");
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Unzipping failed: $e");
+      }
+    }
+
     return ModelData(contents, "", imagePaths);
   }
 
