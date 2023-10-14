@@ -93,7 +93,7 @@ class _QRScanState extends State<QRScanScreen> {
         subscription.cancel();
         controller.stopCamera();
         _downloadAndUnpack(
-                "http://176.214.3.242:34/${event.code!}", "Archive.zip")
+                "http://176.214.3.242:34/data?model_id=${event.code!}", "Archive.zip")
             .then((value) => Navigator.push(
                   context,
                   MaterialPageRoute(
