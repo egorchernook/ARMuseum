@@ -152,7 +152,7 @@ class _ARScreenState extends State<ARScreen> {
     var response = await request.close();
     var bytes = await consolidateHttpClientResponseBytes(response);
     String dir = (await getApplicationDocumentsDirectory()).path;
-    File file = File('$dir/$filename');
+    File file = File("$dir/$filename");
     await file.writeAsBytes(bytes);
     if (kDebugMode) {
       print("Downloading finished, path: $dir/$filename");
@@ -161,7 +161,7 @@ class _ARScreenState extends State<ARScreen> {
     // To print all files in the directory: print(Directory(dir).listSync());
     try {
       await ZipFile.extractToDirectory(
-          zipFile: File('$dir/$filename'), destinationDir: Directory(dir));
+          zipFile: File("$dir/$filename"), destinationDir: Directory(dir));
       if (kDebugMode) {
         print("Unzipping successful");
       }
@@ -199,7 +199,7 @@ class _ARScreenState extends State<ARScreen> {
           uri: "gltfModel_ver3/Mamon.gltf",
           // type: NodeType.webGLB,
           // uri: "http://176.214.3.242:34/test_model",
-          scale: Vector3(0.2, 0.2, 0.2),
+          scale: Vector3(1.0, 1.0, 1.0),
           position: Vector3(0.0, 0.0, 0.0),
           rotation: Vector4(1.0, 0.0, 0.0, 0.0));
       bool? didAddNodeToAnchor =
