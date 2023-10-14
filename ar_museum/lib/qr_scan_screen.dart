@@ -162,7 +162,7 @@ class _QRScanState extends State<QRScanScreen> {
       }
     }
 
-    return ModelData(contents, "", imagePaths);
+    return ModelData(contents, "$dir/audio.mp3", imagePaths);
   }
 
   @override
