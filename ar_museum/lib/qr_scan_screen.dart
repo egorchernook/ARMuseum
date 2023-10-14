@@ -97,10 +97,10 @@ class _QRScanState extends State<QRScanScreen> {
             .then((value) => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ModelInfo(
+                      builder: (context) => ARScreen(modelInfo: ModelInfo(
                           images: value.images!,
                           desription: value.modelDescription!,
-                          audioPath: value.audioPath!)),
+                          audioPath: value.audioPath!))),
                 ));
       }
     });
