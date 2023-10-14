@@ -104,7 +104,10 @@ class _QRScanState extends State<QRScanScreen> {
             "Archive.zip").then((value) =>
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ModelInfo(images: value.images!, desription: value.modelDescription!)),
+              MaterialPageRoute(builder: (context) => ModelInfo(
+                  images: value.images!,
+                  desription: value.modelDescription!,
+                  audioPath: value.audioPath!)),
             )
         );
       }
@@ -152,7 +155,7 @@ class _QRScanState extends State<QRScanScreen> {
     await imageDir.list(recursive: false).forEach((element) {
       imagePaths.add(element.path);
     });
-    return ModelData(contents, "", imagePaths);
+    return ModelData(contents, "$dir/audio.mp3", imagePaths);
   }
 
   @override

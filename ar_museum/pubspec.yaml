@@ -40,7 +40,7 @@ dependencies:
   flutter_archive: ^5.0.0
   carousel_slider: ^4.2.1
   smooth_page_indicator: ^1.1.0
-
+  audioplayers: ^5.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
