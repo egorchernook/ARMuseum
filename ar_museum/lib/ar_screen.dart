@@ -23,14 +23,15 @@ import 'package:flutter_archive/flutter_archive.dart';
 
 class ARScreen extends StatefulWidget
 {
-  const ARScreen({Key? key}) : super(key: key);
+  final String modelPath;
+  const ARScreen({Key? key, required this.modelPath}) : super(key: key);
 
   @override
-  State<ARScreen> createState() => _ARScreenState();
+  State<ARScreen> createState() => _ARScreenState(modelPath : this.modelPath);
 }
 
 class _ARScreenState extends State<ARScreen> {
-  final PageController _pageController = PageController();
+  String modelPath;
   ARSessionManager? arSessionManager;
   ARObjectManager? arObjectManager;
   ARAnchorManager? arAnchorManager;
@@ -38,6 +39,8 @@ class _ARScreenState extends State<ARScreen> {
 
   List<ARNode> nodes = [];
   List<ARAnchor> anchors = [];
+
+  _ARScreenState({required this.modelPath});
 
   @override
   void dispose() {
@@ -140,7 +143,7 @@ class _ARScreenState extends State<ARScreen> {
 
     httpClient = HttpClient();
     _downloadAndUnpack(
-        "http://176.214.3.242:34/test_model",
+        "http://176.214.3.242:34/$modelPath",
         "Mammoth.zip");
   }
 

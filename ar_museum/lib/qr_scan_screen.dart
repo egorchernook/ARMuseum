@@ -90,7 +90,7 @@ class _QRScanState extends State<QRScanScreen> {
       controller.stopCamera();
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const ARScreen()),
+        MaterialPageRoute(builder: (context) => const ARScreen(modelPath : "test")),
       );
     });
   }
