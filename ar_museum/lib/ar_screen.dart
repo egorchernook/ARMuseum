@@ -70,6 +70,12 @@ class _ARScreenState extends State<ARScreen> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          leading: BackButton(
+            onPressed: () {
+              arSessionManager!.dispose();
+              Navigator.of(context).pop();
+            },
+          ),
           title: const Text(_title),
         ),
         body: Stack(children: [
@@ -102,7 +108,6 @@ class _ARScreenState extends State<ARScreen> {
 
     this.arSessionManager!.onPlaneOrPointTap = onPlaneOrPointTapped;
     this.arObjectManager!.onNodeTap = onNodeTapped;
-
   }
 
   Future<void> onNodeTapped(List<String> nodes) async {
@@ -110,8 +115,13 @@ class _ARScreenState extends State<ARScreen> {
     // arSessionManager!.onError("Tapped $number node(s)");
   }
 
+  bool isPlaneChosen = false;
+
   Future<void> onPlaneOrPointTapped(
       List<ARHitTestResult> hitTestResults) async {
+    if(isPlaneChosen) {
+      return;
+    }
     var singleHitTestResult = hitTestResults.firstWhere(
             (hitTestResult) => hitTestResult.type == ARHitTestResultType.plane);
     var newAnchor =
@@ -133,8 +143,8 @@ class _ARScreenState extends State<ARScreen> {
       } else {
         arSessionManager!.onError("Adding Node to Anchor failed");
       }
-    } else {
-      arSessionManager!.onError("Adding Anchor failed");
-    }
+      } else {
+        arSessionManager!.onError("Adding Anchor failed");
+      }
     }
 }

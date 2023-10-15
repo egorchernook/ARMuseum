@@ -11,7 +11,12 @@ class ModelInfo extends StatefulWidget {
   String audioPath;
   List<String> images;
 
-  ModelInfo({super.key, required this.images, required this.desription, required this.audioPath});
+  ModelInfo({
+    super.key,
+    required this.images,
+    required this.desription,
+    required this.audioPath
+  });
 
   @override
   State<ModelInfo> createState() => _ModelInfoState();
@@ -168,5 +173,4 @@ class _ModelInfoState extends State<ModelInfo> {
       )
     );
   }
-
 }

@@ -84,6 +84,7 @@ class _QRScanState extends State<QRScanScreen> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
+    controller.resumeCamera();
     setState(() {
       this.controller = controller;
     });
@@ -91,16 +92,18 @@ class _QRScanState extends State<QRScanScreen> {
     subscription.onData((event) {
       if (event.code != null) {
         subscription.cancel();
-        controller.stopCamera();
+        controller.pauseCamera();
         _downloadAndUnpack(
-                "http://176.214.3.242:34/data?model_id=${event.code!}", "Archive.zip")
+                "http://176.214.3.242:34/data?model_id=${event.code!}",
+                "Archive.zip")
             .then((value) => Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => ARScreen(modelInfo: ModelInfo(
                           images: value.images!,
                           desription: value.modelDescription!,
-                          audioPath: value.audioPath!))),
+                          audioPath: value.audioPath!)
+                      )),
                 ));
       }
     });
