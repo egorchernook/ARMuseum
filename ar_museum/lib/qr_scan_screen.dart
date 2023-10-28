@@ -11,6 +11,8 @@ import 'dart:io' show Directory, File, HttpClient, Platform;
 
 /// ТОТАЛЬНЫЙ УРОДСК
 /// ПОФИКСИТЬ
+///
+/// ))))
 
 class ModelData {
   String? modelDescription;
@@ -58,37 +60,54 @@ class _QRScanState extends State<QRScanScreen> {
         MediaQuery.of(context).size.height < 400)
         ? 150.0
         : 280.0;
-    return Stack(
-      children: [
-        QRView(
-          key: qrKey,
-          onQRViewCreated: _onQRViewCreated,
-          overlay: QrScannerOverlayShape(
-              borderColor: Colors.red,
-              borderRadius: 10,
-              borderLength: 30,
-              borderWidth: 5,
-              cutOutSize: scanArea),
-          onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            child: const Text(
-              'Отсканируйте QR код точки',
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 30
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context)
+                        => ARScreen()
+                    )
+                );
+              },
+              icon: const Icon(Icons.forward))
+        ],
+      ),
+      body: Stack(
+        children: [
+          QRView(
+            key: qrKey,
+            onQRViewCreated: _onQRViewCreated,
+            overlay: QrScannerOverlayShape(
+                borderColor: Colors.red,
+                borderRadius: 10,
+                borderLength: 30,
+                borderWidth: 5,
+                cutOutSize: scanArea),
+            onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              child: const Text(
+                'Отсканируйте QR код точки',
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 30
+                ),
               ),
-            ),
+            )
           )
-        )
-      ]
+        ]
+      )
     );
   }
 
@@ -105,7 +124,15 @@ class _QRScanState extends State<QRScanScreen> {
             "Archive.zip").then((value) =>
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ARScreen(modelInfo: ModelInfo(images: value.images!, desription: value.modelDescription!))),
+              MaterialPageRoute(
+                  builder: (context)
+                    => const ARScreen(
+                        // modelInfo: ModelInfo(
+                        //     images: value.images!,
+                        //     desription: value.modelDescription!
+                        // )
+                    )
+              ),
             )
         );
       }
@@ -135,7 +162,8 @@ class _QRScanState extends State<QRScanScreen> {
 
     try {
       await ZipFile.extractToDirectory(
-          zipFile: File("$dir/$filename"), destinationDir: Directory(dir).absolute);
+          zipFile: File("$dir/$filename"),
+          destinationDir: Directory(dir).absolute);
       if (kDebugMode) {
         print("Unzipping successful");
       }
@@ -156,7 +184,8 @@ class _QRScanState extends State<QRScanScreen> {
 
     try {
       await ZipFile.extractToDirectory(
-          zipFile: File("$dir/gltfModel_ver3.zip"), destinationDir: Directory(dir).absolute);
+          zipFile: File("$dir/gltfModel_ver3.zip"),
+          destinationDir: Directory(dir).absolute);
       if (kDebugMode) {
         print("Unzipping successful");
       }

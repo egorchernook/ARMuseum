@@ -5,8 +5,9 @@ import 'model_info.dart';
 
 class ARScreen extends StatefulWidget
 {
-  ModelInfo modelInfo;
-  ARScreen({Key? key, required this.modelInfo}) : super(key: key);
+  // ModelInfo modelInfo;
+  // ARScreen({Key? key, required this.modelInfo}) : super(key: key);
+  const ARScreen({Key? key}) : super(key: key);
 
   @override
   State<ARScreen> createState() => _ARScreenState();
@@ -14,6 +15,8 @@ class ARScreen extends StatefulWidget
 
 class _ARScreenState extends State<ARScreen> {
   late UnityWidgetController unityWidgetController;
+  static final GlobalKey<ScaffoldState> _scaffoldKey =
+                GlobalKey<ScaffoldState>();
   void onUnityCreated(controller) {
     unityWidgetController = controller;
   }
@@ -21,7 +24,6 @@ class _ARScreenState extends State<ARScreen> {
   @override
   void dispose() {
     super.dispose();
-
   }
 
   static const String _title = 'ARMuseum';
@@ -35,27 +37,25 @@ class _ARScreenState extends State<ARScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
+          leading: BackButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
           title: const Text(_title),
         ),
-        body: SafeArea(
-          child: Stack(
-            children: [
-              WillPopScope(
-               onWillPop: () {
-                  // Pop the category page if Android back button is pressed.
-                },
-                child: Container(
-                  color: Colors.yellow,
-                  child: UnityWidget(
-                    onUnityCreated: onUnityCreated,
-                  ),
-                ),
-              ),
-              widget.modelInfo
-            ]
+        body: Stack(children: [
+          Container(
+            color: Colors.yellow,
+            child: UnityWidget(
+              onUnityCreated: onUnityCreated,
+            ),
           ),
-        ),
+          // widget.modelInfo
+        ]),
+
       ),
     );
   }
