@@ -24,11 +24,6 @@ allprojects {
 }
 
 rootProject.buildDir = '../build'
-//
-//dependencies {
-//    implementation files('unityLibrary/libs/unity-classes.jar')
-//    implementation files('unityLibrary/libs/VuforiaEngine.aar')
-//}
 
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
