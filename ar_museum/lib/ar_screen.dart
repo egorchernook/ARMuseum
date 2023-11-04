@@ -40,16 +40,16 @@ class _ARScreenState extends State<ARScreen> {
       home: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          leading: BackButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
+          // leading: BackButton(
+          //   onPressed: () {
+          //     Navigator.of(context).pop();
+          //   },
+          // ),
           title: const Text(_title),
         ),
         body: UnityWidget(
           onUnityCreated: onUnityCreated,
-          runImmediately: true,
+          // runImmediately: true,
           // widget.modelInfo
         ),
       ),
