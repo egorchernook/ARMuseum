@@ -272,7 +272,6 @@ GameObject:
   - component: {fileID: 111271706}
   - component: {fileID: 111271708}
   - component: {fileID: 111271710}
-  - component: {fileID: 111271713}
   - component: {fileID: 111271712}
   m_Layer: 0
   m_Name: XR Origin
@@ -328,7 +327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlanePrefab: {fileID: 2437326862225947205, guid: fb77571855a48d945ba7a3f2578dd08c,
     type: 3}
-  m_DetectionMode: -1
+  m_DetectionMode: 1
 --- !u!114 &111271710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,27 +355,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameObjectToInstantiate: {fileID: 919132149155446097, guid: 251d29236cc9abe4a86158cb8d5c43a8,
     type: 3}
---- !u!95 &111271713
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 111271705}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

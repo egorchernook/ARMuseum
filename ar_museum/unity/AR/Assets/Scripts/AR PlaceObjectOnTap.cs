@@ -11,15 +11,17 @@ public class NewBehaviourScript : MonoBehaviour
 
     public GameObject gameObjectToInstantiate;
 
+    private GameObject parentObject;
     private GameObject spawnedObject;
     private ARRaycastManager arRaycastManager;
     private Vector2 touchPosition;
-    private Animator animator;
+    private Animation animation;
 
     static List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
     private void Awake() 
     {
+        parentObject = new GameObject("Empty parent object");
         arRaycastManager = GetComponent<ARRaycastManager>();
     }
 
@@ -49,20 +51,19 @@ public class NewBehaviourScript : MonoBehaviour
 
             if (spawnedObject == null)
             {
-                spawnedObject = Instantiate(gameObjectToInstantiate, hitPose.position, hitPose.rotation);
-                animator = GetComponent<Animator>();
+                spawnedObject = Instantiate(gameObjectToInstantiate);
+                spawnedObject.transform.parent = parentObject.transform;
+                parentObject.transform.SetPositionAndRotation(hitPose.position, hitPose.rotation);
+                // spawnedObject = Instantiate(gameObjectToInstantiate, hitPose.position, hitPose.rotation);
+                animation = spawnedObject.GetComponent<Animation>();
             }
             else 
             {
                 spawnedObject.transform.position = hitPose.position;
-                if (animator != null)
-                {
-                    return;
-                }
-                else 
-                {
-                    animator.Play("Test_Cube|CubeAction", 0, 0.25f);
-                }
+            }
+            if (animation != null && !animation.isPlaying)
+            {
+                animation.Play();
             }
         }
     }
