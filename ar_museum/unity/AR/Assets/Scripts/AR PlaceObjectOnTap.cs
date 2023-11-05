@@ -45,7 +45,7 @@ public class NewBehaviourScript : MonoBehaviour
             return;
         }
 
-        if (arRaycastManager.Raycast(touchPosition, hits, TrackableType.PlaneWithinPolygon))
+        if (arRaycastManager.Raycast(touchPosition, hits, TrackableType.Planes))
         {
             var hitPose = hits[0].pose;
 
