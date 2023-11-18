@@ -1,7 +1,7 @@
 // import 'package:ar_museum/qr_scan_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'ar_screen.dart';
+import 'screens/ar_screen.dart';
 
 void main() {
   runApp(const MyApp());

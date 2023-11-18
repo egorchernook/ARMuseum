@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
-
 [RequireComponent(typeof(ARRaycastManager))]
-public class NewBehaviourScript : MonoBehaviour
+public class AR_PlaceObjectOnTap : MonoBehaviour
 {
 
     public GameObject gameObjectToInstantiate;
@@ -53,8 +52,8 @@ public class NewBehaviourScript : MonoBehaviour
             {
                 spawnedObject = Instantiate(gameObjectToInstantiate);
                 spawnedObject.transform.parent = parentObject.transform;
+                spawnedObject.transform.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
                 parentObject.transform.SetPositionAndRotation(hitPose.position, hitPose.rotation);
-                // spawnedObject = Instantiate(gameObjectToInstantiate, hitPose.position, hitPose.rotation);
                 animation = spawnedObject.GetComponent<Animation>();
             }
             else 

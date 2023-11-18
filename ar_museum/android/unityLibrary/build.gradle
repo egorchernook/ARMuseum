@@ -5,6 +5,7 @@ dependencies {
     implementation(name: 'unity-classes', ext:'jar')
     implementation(name: 'arcore_client', ext:'aar')
     implementation(name: 'UnityARCore', ext:'aar')
+    implementation(name: 'NativeGallery', ext:'aar')
     implementation(name: 'ARPresto', ext:'aar')
     implementation(name: 'unityandroidpermissions', ext:'aar')
 //    implementation project('xrmanifest.androidlib')
