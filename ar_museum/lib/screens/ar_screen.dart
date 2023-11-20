@@ -15,10 +15,21 @@ class ARScreen extends StatefulWidget {
   State<ARScreen> createState() => _ARScreenState();
 }
 
-class _ARScreenState extends State<ARScreen> {
+class _ARScreenState extends State<ARScreen>
+    with SingleTickerProviderStateMixin {
   late UnityWidgetController unityWidgetController;
   static final GlobalKey<ScaffoldState> _scaffoldKey =
       GlobalKey<ScaffoldState>();
+
+  late final animationController = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 200))
+    ..addListener(() {
+      setState(() {});
+    });
+
+  late final animation = Tween<Matrix4>(
+          begin: Matrix4.translationValues(0, 48, 0), end: Matrix4.identity())
+      .animate(animationController);
 
   void onUnityCreated(controller) {
     unityWidgetController = controller;
@@ -83,6 +94,7 @@ class _ARScreenState extends State<ARScreen> {
               child: Row(children: [
                 Expanded(
                     child: IconButton(
+                  iconSize: 48, // default - 24
                   onPressed: () {
                     unityWidgetController.postMessage("AR Camera",
                         "TakeScreenshot", "Trying to make screenshot");
@@ -94,11 +106,13 @@ class _ARScreenState extends State<ARScreen> {
                 const Spacer(),
                 Expanded(
                     child: IconButton(
+                        iconSize: 48, // default - 24
                         onPressed: () {
                           setState(() {
                             isLikeClicked = !isLikeClicked;
                           });
                         },
+                        color: Colors.red,
                         icon: Icon(isLikeClicked
                             ? Icons.favorite
                             : Icons.favorite_border))),

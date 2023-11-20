@@ -6,14 +6,14 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ModelInfo extends StatefulWidget {
   String modelName = "Мамонт";
-  String desription;
+  String description;
   List<String> images = [
     "image1",
     "image2",
   ];
 
 
-  ModelInfo({super.key, required this.images, required this.desription});
+  ModelInfo({super.key, required this.images, required this.description});
 
   @override
   State<ModelInfo> createState() => _ModelInfoState();
@@ -78,7 +78,7 @@ class _ModelInfoState extends State<ModelInfo> {
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
         child: SingleChildScrollView(
           child: Text(
-            widget.desription,
+            widget.description,
             softWrap: true,
             style: const TextStyle(
               fontSize: 20,

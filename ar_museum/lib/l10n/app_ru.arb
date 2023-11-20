@@ -1,0 +1,10 @@
+{
+ "language": "Русский",
+ "chooseLanguage": "Выберите язык",
+ "mainQRText": "Отсканируйте QR код выставки",
+ "thx": "Спасибо!",
+ "modelQRText": "Отсканируйте QR код экспоната",
+ "screenshotTaken": "Изображение сохранено в галерею",
+ "apply": "Принять",
+ "noPermission": "Нет прав"
+}

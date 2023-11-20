@@ -1,0 +1,10 @@
+{
+ "language": "English",
+ "chooseLanguage": "Choose your language",
+ "mainQRText": "Scan expo`s QR",
+  "thx": "Thanks!",
+  "modelQRText": "Scan exhibit`s QR",
+  "screenshotTaken": "Screenshot saved to the gallery",
+  "apply": "Apply",
+  "noPermission": "No permission"
+}

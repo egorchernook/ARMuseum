@@ -11,6 +11,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  provider: ^6.1.1
+  intl: ^0.18.1
 
   cupertino_icons: ^1.0.2
   qr_code_scanner: ^1.0.1
@@ -31,6 +36,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
+  assets:
+    - assets/config/
 
 flutter_launcher_icons:
   android: "launcher_icon"

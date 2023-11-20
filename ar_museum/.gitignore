@@ -45,3 +45,5 @@ app.*.map.json
 
 # Unity-flutter dirs (creates on Unity apk build)
 **/unityLibrary/**
+
+/assets/config/config.json
