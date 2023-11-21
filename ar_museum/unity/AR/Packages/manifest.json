@@ -1,12 +1,10 @@
 {
   "dependencies": {
     "com.unity.addressables": "1.21.19",
-    "com.unity.collab-proxy": "2.2.0",
     "com.unity.feature.ar": "1.0.1",
     "com.unity.feature.development": "1.0.1",
     "com.unity.profiling.core": "1.0.2",
     "com.unity.textmeshpro": "3.0.6",
-    "com.unity.visualscripting": "1.9.1",
     "com.unity.xr.arcore": "5.1.0",
     "com.unity.xr.management": "4.4.0",
     "com.yasirkula.nativegallery": "https://github.com/yasirkula/UnityNativeGallery.git",

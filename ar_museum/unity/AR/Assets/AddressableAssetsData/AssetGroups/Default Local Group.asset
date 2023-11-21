@@ -16,12 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: a2b584eada42d8d43bcfb80e4eb1d360
-  m_SerializeEntries:
-  - m_GUID: 2d040427ec44e6d4e9e9133a109d06e7
-    m_Address: Assets/Prefabs/Rhino
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 4d033476bedbda746b42ca5f4a2d0891, type: 2}
   m_SchemaSet:

@@ -27,7 +27,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 32
         ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a'
+            abiFilters 'arm64-v8a'
         }
         versionCode 1
         versionName '0.7'
@@ -44,7 +44,7 @@ android {
     }
 
     packagingOptions {
-        doNotStrip '*/armeabi-v7a/*.so'
+//        doNotStrip '*/armeabi-v7a/*.so'
         doNotStrip '*/arm64-v8a/*.so'
     }
 }
@@ -62,8 +62,8 @@ def BuildIl2Cpp(String workingDir, String configuration, String architecture, St
     commandLineArgs.add("--architecture=" + architecture)
     commandLineArgs.add("--outputpath=" + workingDir + "/src/main/jniLibs/" + abi + "/libil2cpp.so")
     commandLineArgs.add("--baselib-directory=" + workingDir + "/src/main/jniStaticLibs/" + abi)
+    commandLineArgs.add("--configuration=" + configuration)
     commandLineArgs.add("--dotnetprofile=unityaot-linux")
-    commandLineArgs.add("--enable-debugger")
     commandLineArgs.add("--profiler-report")
     commandLineArgs.add("--profiler-output-file=" + workingDir + "/build/il2cpp_"+ abi + "_" + configuration + "/il2cpp_conv.traceevents")
     commandLineArgs.add("--print-command-line")
@@ -91,8 +91,8 @@ def BuildIl2Cpp(String workingDir, String configuration, String architecture, St
 android {
     task BuildIl2CppTask {
         doLast {
-              BuildIl2Cpp(projectDir.toString().replaceAll('\\\\', '/'), 'Debug', 'armv7', 'armeabi-v7a', [  ] as String[]);
-              BuildIl2Cpp(projectDir.toString().replaceAll('\\\\', '/'), 'Debug', 'arm64', 'arm64-v8a', [  ] as String[]);
+//              BuildIl2Cpp(projectDir.toString().replaceAll('\\\\', '/'), 'Release', 'armv7', 'armeabi-v7a', [  ] as String[]);
+              BuildIl2Cpp(projectDir.toString().replaceAll('\\\\', '/'), 'Release', 'arm64', 'arm64-v8a', [  ] as String[]);
         }
     }
     afterEvaluate {
