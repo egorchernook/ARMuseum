@@ -44,7 +44,7 @@ android {
     }
 
     packagingOptions {
-//        doNotStrip '*/armeabi-v7a/*.so'
+        doNotStrip '*/armeabi-v7a/*.so'
         doNotStrip '*/arm64-v8a/*.so'
     }
 }
@@ -91,7 +91,7 @@ def BuildIl2Cpp(String workingDir, String configuration, String architecture, St
 android {
     task BuildIl2CppTask {
         doLast {
-//              BuildIl2Cpp(projectDir.toString().replaceAll('\\\\', '/'), 'Release', 'armv7', 'armeabi-v7a', [  ] as String[]);
+              BuildIl2Cpp(projectDir.toString().replaceAll('\\\\', '/'), 'Release', 'armv7', 'armeabi-v7a', [  ] as String[]);
               BuildIl2Cpp(projectDir.toString().replaceAll('\\\\', '/'), 'Release', 'arm64', 'arm64-v8a', [  ] as String[]);
         }
     }
