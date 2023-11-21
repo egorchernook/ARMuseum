@@ -8,9 +8,7 @@ class AppConfig {
     return _instance;
   }
 
-  AppConfig._internal() {
-    // initialization logic
-  }
+  AppConfig._internal();
 
   static Future<dynamic> get(String key) async {
     final contents = await rootBundle.loadString(

@@ -11,7 +11,7 @@ abstract class BaseQRScreen extends StatefulWidget {
   const BaseQRScreen({Key? key}) : super(key: key);
 }
 
-abstract class _BaseQRScreenState<Screen extends BaseQRScreen>
+abstract class BaseQRScreenState<Screen extends BaseQRScreen>
     extends State<Screen> {
   Barcode? result;
   QRViewController? controller;
@@ -50,7 +50,7 @@ abstract class _BaseQRScreenState<Screen extends BaseQRScreen>
     }
   }
 
-  Widget _buildQRView(
+  Widget buildQRView(
       BuildContext context, Function(QRViewController) onQRViewCreated) {
     final scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
