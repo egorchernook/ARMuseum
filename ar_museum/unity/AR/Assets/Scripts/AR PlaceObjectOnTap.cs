@@ -3,26 +3,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(ARRaycastManager))]
+[RequireComponent(typeof(AssetsDownloader))]
 public class AR_PlaceObjectOnTap : MonoBehaviour
 {
 
-    public GameObject gameObjectToInstantiate;
+    private GameObject gameObjectToInstantiate;
 
     private GameObject parentObject;
     private GameObject spawnedObject;
     private ARRaycastManager arRaycastManager;
+    private AssetsDownloader assetsDownloader;
     private Vector2 touchPosition;
     private Animation animation;
 
     static List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
-    private void Awake() 
+    private void Awake()
     {
         parentObject = new GameObject("Empty parent object");
         arRaycastManager = GetComponent<ARRaycastManager>();
+        assetsDownloader = GetComponent<AssetsDownloader>();
+
+        gameObjectToInstantiate = assetsDownloader.assetBundle.LoadAsset<GameObject>("Model");
+
+        // string uri = "https://drive.google.com/uc?export=download&id=1GRUgRK156xTqbrs2_wrEsucMivD3HfHC";
+        // StartCoroutine(GetAssetBundle(uri));
     }
+
+//    IEnumerator GetAssetBundle(string url) 
+//    {
+//        UnityWebRequest request = UnityWebRequestAssetBundle.GetAssetBundle(url);
+//        yield return request.SendWebRequest();
+//        AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(request);
+//        if (bundle == null)
+//            Debug.Log("Failed to load AssetBundle!");
+//        else
+//        {
+//            foreach (string name in bundle.GetAllAssetNames())
+//            {
+//                Debug.Log(name);
+//            }
+//        }
+//        Debug.Log("===================================================");
+//        gameObjectToInstantiate = bundle.LoadAsset<GameObject>("assets/bundeledassets/model/rhino.prefab");
+//        Debug.Log("===================================================");
+//    }
 
     bool TryGetTouchPosition(out Vector2 touchPosition) 
     {
@@ -39,6 +67,10 @@ public class AR_PlaceObjectOnTap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameObjectToInstantiate == null) 
+        {
+            return;
+        }
         if (!TryGetTouchPosition(out Vector2 touchPosition))
         {
             return;

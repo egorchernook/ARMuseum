@@ -227,7 +227,7 @@ MonoBehaviour:
   m_FocusMode: -1
   m_LightEstimationMode: -1
   m_AutoFocus: 1
-  m_LightEstimation: 0
+  m_LightEstimation: -1
   m_FacingDirection: 1
   m_RenderMode: 0
 --- !u!114 &22732923
@@ -314,6 +314,7 @@ GameObject:
   - component: {fileID: 111271710}
   - component: {fileID: 111271712}
   - component: {fileID: 111271713}
+  - component: {fileID: 111271714}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -336,7 +337,7 @@ MonoBehaviour:
   m_Camera: {fileID: 22732920}
   m_OriginBaseGameObject: {fileID: 111271705}
   m_CameraFloorOffsetObject: {fileID: 0}
-  m_RequestedTrackingOriginMode: 0
+  m_RequestedTrackingOriginMode: 1
   m_CameraYOffset: 1.1176
 --- !u!4 &111271707
 Transform:
@@ -410,6 +411,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_DestroyOnRemoval: 1
   m_VertexChangedThreshold: 0.01
+--- !u!114 &111271714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111271705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67563daba76225542a4d6d18626acace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

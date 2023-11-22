@@ -5,15 +5,13 @@ class AllLocales {
 
   static final all = <Locale>[
     const Locale("ru", "RU"),
-    const Locale("en", "US"),
-    const Locale("zn", "CN")
+    const Locale("en", "US")
   ];
 
   static final localeName =
       Map<Locale, String>.unmodifiable(
           {
             all[0]: "Русский",
-            all[1]: "English",
-            all[2]: "汉语"
+            all[1]: "English"
           });
 }

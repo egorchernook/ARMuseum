@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import '../l10n/all_locales.dart';
 
 class LocaleProvider with ChangeNotifier {
-  late Locale _locale;
+  Locale _locale = AllLocales.all[0];
   Locale get locale => _locale;
   void setLocale(Locale locale) {
     if (!AllLocales.all.contains(locale)) return;
