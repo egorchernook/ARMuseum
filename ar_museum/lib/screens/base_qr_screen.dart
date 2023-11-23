@@ -17,7 +17,6 @@ abstract class BaseQRScreenState<Screen extends BaseQRScreen>
   QRViewController? controller;
   HttpClient? httpClient;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  late final String serverURL;
 
   @override
   void reassemble() {
@@ -32,11 +31,11 @@ abstract class BaseQRScreenState<Screen extends BaseQRScreen>
   Future<void> initState() async {
     super.initState();
     httpClient = HttpClient();
-    serverURL = await AppConfig.get("backURL");
   }
 
   @override
   void dispose() {
+    httpClient?.close();
     controller?.dispose();
     super.dispose();
   }

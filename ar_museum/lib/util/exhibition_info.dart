@@ -6,8 +6,11 @@ import 'exhibition_info_json.dart';
 class ExhibitInfo {
   final String imagesURL;
   final String modelsURL;
-  final Map<Locale, String> exhibitDescriptionURL;
-  final Map<Locale, String> exhibitAudioURL;
+
+  // final Map<Locale, String> exhibitDescriptionURL;
+  // final Map<Locale, String> exhibitAudioURL;
+  final String exhibitDescriptionURL;
+  final String exhibitAudioURL;
 
   const ExhibitInfo(this.imagesURL, this.modelsURL, this.exhibitDescriptionURL,
       this.exhibitAudioURL);
@@ -33,8 +36,10 @@ class ExhibitionInfo {
             exhibitItem.id: ExhibitInfo(
                 exhibitItem.imagesURL,
                 exhibitItem.modelsURL,
-                convertFromListToMap(
-                    exhibitItem.exhibitDescriptionInfoJSONList),
-                convertFromListToMap(exhibitItem.exhibitAudioInfoJSONList))
+                exhibitItem.exhibitDescriptionInfoURL,
+                exhibitItem.exhibitAudioInfoURL)
+          // convertFromListToMap(
+          //     exhibitItem.exhibitDescriptionInfoJSONList),
+          // convertFromListToMap(exhibitItem.exhibitAudioInfoJSONList))
         };
 }
