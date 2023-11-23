@@ -1,6 +1,7 @@
 import 'package:ar_museum/l10n/all_locales.dart';
 import 'package:ar_museum/screens/main_qr_scan_screen_old.dart';
 import 'package:ar_museum/screens/model_qr_scan_screen.dart';
+import 'package:ar_museum/screens/unity_load_screen.dart';
 import 'package:ar_museum/util/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -42,9 +43,10 @@ class MyApp extends StatelessWidget {
               "/languageSettings": (context) => const LanguageSettingsScreen(),
               "/mainQR": (context) => const MainQRScanScreen(),
               "/modelQR": (context) => const QRScanScreen(),
-              "/arScreen": (context) => const ARScreen()
+              "/arScreen": (context) => const ARScreen(),
+              "/unityLoad": (context) => const UnityLoadScreen()
             },
-            initialRoute: "/languageSettings",
+            initialRoute: "/unityLoad",
           );
         });
   }

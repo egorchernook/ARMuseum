@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 22732927}
   - component: {fileID: 22732925}
   - component: {fileID: 22732926}
+  - component: {fileID: 22732928}
   m_Layer: 0
   m_Name: AR Camera
   m_TagString: Untagged
@@ -300,6 +301,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f0d555a552e429a9e36a2bec4c1faf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &22732928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22732919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579ea0c66298df045b146b7a9e9df8bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &111271705
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,8 +408,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 093003bf59f791b4cb2efc785d3be47d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObjectToInstantiate: {fileID: 919132149155446097, guid: 8eb4d9b7b7d35b6458e0fb9990eb2059,
-    type: 3}
 --- !u!114 &111271713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,6 +434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67563daba76225542a4d6d18626acace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  assetBundle: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
