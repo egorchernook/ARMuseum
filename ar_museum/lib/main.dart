@@ -1,5 +1,5 @@
 import 'package:ar_museum/l10n/all_locales.dart';
-import 'package:ar_museum/screens/main_qr_scan_screen_old.dart';
+import 'package:ar_museum/screens/main_qr_scan_screen.dart';
 import 'package:ar_museum/screens/model_qr_scan_screen.dart';
 import 'package:ar_museum/screens/unity_load_screen.dart';
 import 'package:ar_museum/util/locale_provider.dart';
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         create: (_) => LocaleProvider(),
         builder: (context, child) {
           return MaterialApp(
-            title: '$appName app',
+            title: appName,
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,

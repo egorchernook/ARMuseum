@@ -37,6 +37,7 @@ class _UnityLoadScreenState extends State<UnityLoadScreen> {
         if (kDebugMode) {
           print("Time: $timestamp, data : $data");
         }
+        unityWidgetController.pause();
         Navigator.pushNamed(context, "/languageSettings");
         break;
       default:

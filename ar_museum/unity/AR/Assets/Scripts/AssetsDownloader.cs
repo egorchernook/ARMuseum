@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 public class AssetsDownloader : MonoBehaviour
 {
+    [SerializeField]
     public AssetBundle assetBundle;
 
     void downloadFrom(string url)

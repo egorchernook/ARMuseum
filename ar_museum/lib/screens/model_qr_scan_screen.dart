@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
+// import '../util/app_config.dart';
+import '../util/exhibition_info.dart';
 import 'base_qr_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QRScanScreen extends BaseQRScreen {
   const QRScanScreen({Key? key}) : super(key: key);
@@ -12,11 +15,10 @@ class QRScanScreen extends BaseQRScreen {
 }
 
 class _QRScanState extends BaseQRScreenState<QRScanScreen> {
-  late UnityWidgetController unityWidgetController;
-
   @override
   Widget build(BuildContext context) {
-    return super.buildQRView(context, _onQRViewCreated);
+    return super.buildQRView(
+        context, _onQRViewCreated, AppLocalizations.of(context)!.modelQRText);
   }
 
   void _onQRViewCreated(QRViewController controller) {
@@ -29,13 +31,14 @@ class _QRScanState extends BaseQRScreenState<QRScanScreen> {
         subscription.cancel();
         controller.stopCamera();
 
-        const url = ""; // TODO: rework
+        // unityWidgetController
+        //     .postMessage("XR Origin", "downloadFrom",
+        //         ExhibitionInfo().exhibitionData[0]?.modelURL)
+        //     ?.then((value) =>
+      Navigator.pushNamed(context, "/arScreen");
 
-        unityWidgetController.postMessage("XR Origin",
-            "downloadFrom", url);
-
-      //   _downloadAndUnpack("$url/${event.code!}", "Archive.zip")
-      //       .then((value) => Navigator.pushNamed(context, "/modelQR"));
+        //   _downloadAndUnpack("$url/${event.code!}", "Archive.zip")
+        //       .then((value) => Navigator.pushNamed(context, "/modelQR"));
       }
     });
   }

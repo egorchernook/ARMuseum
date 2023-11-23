@@ -22,31 +22,32 @@ import 'dart:ffi';
 //       list.map((element) => element.toMapEntryLocaleString()));
 // }
 
-typedef LocalizationSensitiveDataInfoJSON = String;
-typedef ExhibitDescriptionInfoJSON = LocalizationSensitiveDataInfoJSON;
-typedef ExhibitAudioInfoJSON = LocalizationSensitiveDataInfoJSON;
+typedef LocalizationSensitiveDataJSON = String;
+typedef ExhibitDescriptionJSON = LocalizationSensitiveDataJSON;
+typedef ExhibitAudioJSON = LocalizationSensitiveDataJSON;
 
 class ExhibitInfoJSON {
-  final Uint64 id;
-  final String imagesURL;
-  final String modelsURL;
+  final int id;
+  final List<String> images;
+  final String model;
+
   // final List<ExhibitDescriptionInfoJSON> exhibitDescriptionInfoJSONList;
   // final List<ExhibitAudioInfoJSON> exhibitAudioInfoJSONList;
-  final ExhibitDescriptionInfoJSON exhibitDescriptionInfoURL;
-  final ExhibitAudioInfoJSON exhibitAudioInfoURL;
+  final ExhibitDescriptionJSON exhibitDescription;
+  final ExhibitAudioJSON exhibitAudio;
 
   ExhibitInfoJSON.fromJson(Map<String, dynamic> json)
-      : id = json["id"] as Uint64,
-        imagesURL = json["imagesURL"] as String,
-        modelsURL = json["modelsURL"] as String,
-        exhibitDescriptionInfoURL = json["description"] as String,
-        exhibitAudioInfoURL = json["audio"] as String;
-        // exhibitDescriptionInfoJSONList = (json["description"] as List<dynamic>)
-        //     .map((item) => ExhibitDescriptionInfoJSON.fromJson(item))
-        //     .toList(),
-        // exhibitAudioInfoJSONList = (json["audio"] as List<dynamic>)
-        //     .map((item) => ExhibitAudioInfoJSON.fromJson(item))
-        //     .toList();
+      : id = json["id"] as int,
+        images = (json["images"] as List<dynamic>).map((elem) => elem.toString()).toList(),
+        model = json["model"] as String,
+        exhibitDescription = json["description"] as String,
+        exhibitAudio = json["audio"] as String;
+// exhibitDescriptionInfoJSONList = (json["description"] as List<dynamic>)
+//     .map((item) => ExhibitDescriptionInfoJSON.fromJson(item))
+//     .toList(),
+// exhibitAudioInfoJSONList = (json["audio"] as List<dynamic>)
+//     .map((item) => ExhibitAudioInfoJSON.fromJson(item))
+//     .toList();
 }
 
 class ExhibitionInfoJSON {

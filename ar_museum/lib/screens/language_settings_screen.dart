@@ -57,7 +57,7 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
               CupertinoButton(
                 color: Colors.lightBlue,
                 onPressed: () {
-                  Navigator.pushNamed(context, "/arScreen");
+                  Navigator.pushNamed(context, "/mainQR");
                 },
                 child: Text(AppLocalizations.of(context)!.apply),
               ),

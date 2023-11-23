@@ -4,15 +4,15 @@ import 'dart:ui';
 import 'exhibition_info_json.dart';
 
 class ExhibitInfo {
-  final String imagesURL;
-  final String modelsURL;
+  final List<String> imagesURL;
+  final String modelURL;
 
   // final Map<Locale, String> exhibitDescriptionURL;
   // final Map<Locale, String> exhibitAudioURL;
   final String exhibitDescriptionURL;
   final String exhibitAudioURL;
 
-  const ExhibitInfo(this.imagesURL, this.modelsURL, this.exhibitDescriptionURL,
+  const ExhibitInfo(this.imagesURL, this.modelURL, this.exhibitDescriptionURL,
       this.exhibitAudioURL);
 }
 
@@ -23,21 +23,18 @@ class ExhibitionInfo {
     return _instance;
   }
 
-  late Map<Uint64, ExhibitInfo> exhibitionData;
-
-  ExhibitionInfo._internal() {
-    exhibitionData = <Uint64, ExhibitInfo>{};
-  }
+  Map<int, ExhibitInfo> exhibitionData = {};
+  ExhibitionInfo._internal();
 
   ExhibitionInfo.fromJson(List<dynamic> json)
       : exhibitionData = {
           for (var exhibitItem
               in ExhibitionInfoJSON.fromJson(json).exhibitInfoJSONList)
             exhibitItem.id: ExhibitInfo(
-                exhibitItem.imagesURL,
-                exhibitItem.modelsURL,
-                exhibitItem.exhibitDescriptionInfoURL,
-                exhibitItem.exhibitAudioInfoURL)
+                exhibitItem.images,
+                exhibitItem.model,
+                exhibitItem.exhibitDescription,
+                exhibitItem.exhibitAudio)
           // convertFromListToMap(
           //     exhibitItem.exhibitDescriptionInfoJSONList),
           // convertFromListToMap(exhibitItem.exhibitAudioInfoJSONList))

@@ -28,7 +28,7 @@ abstract class BaseQRScreenState<Screen extends BaseQRScreen>
   }
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
     httpClient = HttpClient();
   }
@@ -49,8 +49,8 @@ abstract class BaseQRScreenState<Screen extends BaseQRScreen>
     }
   }
 
-  Widget buildQRView(
-      BuildContext context, Function(QRViewController) onQRViewCreated) {
+  Widget buildQRView(BuildContext context,
+      Function(QRViewController) onQRViewCreated, String text) {
     final scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
         ? 150.0
@@ -73,7 +73,7 @@ abstract class BaseQRScreenState<Screen extends BaseQRScreen>
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             child: Text(
-              AppLocalizations.of(context)!.mainQRText,
+              text,
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               maxLines: 2,

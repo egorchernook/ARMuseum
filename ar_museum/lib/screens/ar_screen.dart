@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 
+import '../util/exhibition_info.dart';
+
 // import 'model_info.dart';
 
 class ARScreen extends StatefulWidget {
@@ -33,6 +35,9 @@ class _ARScreenState extends State<ARScreen>
 
   void onUnityCreated(controller) {
     unityWidgetController = controller;
+
+    unityWidgetController.postMessage("XR Origin", "downloadFrom",
+        ExhibitionInfo().exhibitionData[0]?.modelURL);
   }
 
   @override
