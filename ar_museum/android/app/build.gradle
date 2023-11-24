@@ -80,6 +80,6 @@ flutter {
 }
 
 dependencies {
-    implementation project(':xrmanifest.androidlib')
+    implementation project(':unityLibrary:xrmanifest.androidlib')
     implementation project(':unityLibrary')
 }

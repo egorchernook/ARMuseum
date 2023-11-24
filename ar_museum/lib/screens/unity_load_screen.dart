@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -13,8 +14,6 @@ class UnityLoadScreen extends StatefulWidget {
 
 class _UnityLoadScreenState extends State<UnityLoadScreen> {
   late UnityWidgetController unityWidgetController;
-
-  // bool _readyToGo = false;
 
   @override
   void dispose() {
@@ -47,22 +46,34 @@ class _UnityLoadScreenState extends State<UnityLoadScreen> {
     }
   }
 
-  void _onUnityCreated(UnityWidgetController controller) {
+  void _onUnityCreated(UnityWidgetController controller) async {
     unityWidgetController = controller;
-    // while (!(await unityWidgetController.isLoaded())! &&
-    //     !(await unityWidgetController.isReady())!) {
-    //   if (kDebugMode) {
-    //     print("Waiting...");
-    //   }
-    // }
-    // if (context.mounted) Navigator.pushNamed(context, "/languageSettings");
+
+    await unityWidgetController.isReady();
+    _isExiting = false;
   }
 
   @override
   Widget build(BuildContext context) {
     return UnityWidget(
-      onUnityCreated: _onUnityCreated,
-      onUnityMessage: _onUnityMessage,
-    );
+        onUnityCreated: _onUnityCreated,
+        onUnityMessage: _onUnityMessage,
+        onUnitySceneLoaded: _onUnitySceneLoaded,
+        unloadOnDispose:false);
+  }
+
+  var _isExiting = false;
+
+  void _onUnitySceneLoaded(SceneLoaded? scene) async {
+    if (kDebugMode) {
+      print('Received scene loaded from unity: ${scene?.name}');
+      print('Received scene loaded from unity buildIndex: ${scene?.buildIndex}');
+    }
+
+    if (Platform.isAndroid && scene?.buildIndex == 0 && !_isExiting) {
+      unityWidgetController.pause()?.then((_) {
+        unityWidgetController.resume();
+      });
+    }
   }
 }

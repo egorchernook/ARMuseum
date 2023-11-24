@@ -34,6 +34,8 @@ class _ModelInfoState extends State<ModelInfo> {
     });
   }
 
+  bool isExpanded() => _expanded;
+
   Widget _buildContent() {
     return Container(
         child: Column(

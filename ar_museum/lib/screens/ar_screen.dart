@@ -55,10 +55,6 @@ class _ARScreenState extends State<ARScreen>
   @override
   void initState() {
     super.initState();
-
-    arguments =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    modelInfo = arguments["modelInfo"] as ModelInfo;
   }
 
   bool isLikeClicked = false;
@@ -83,6 +79,9 @@ class _ARScreenState extends State<ARScreen>
 
   @override
   Widget build(BuildContext context) {
+    arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    modelInfo = arguments["modelInfo"] as ModelInfo;
     return MaterialApp(
         home: Scaffold(
       key: _scaffoldKey,

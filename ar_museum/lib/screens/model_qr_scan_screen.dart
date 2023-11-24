@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:ar_museum/util/model_info.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -42,8 +43,15 @@ class _QRScanState extends BaseQRScreenState<QRScanScreen> {
         final id = int.parse(event.code!);
 
         _downloadModelInfo(id).then((value) => Navigator.pushNamed(
-            context, "/arScreen",
-            arguments: <String, dynamic>{"id": id, "modelData": value}));
+                context, "/arScreen",
+                arguments: <String, dynamic>{
+                  "id": id,
+                  "modelInfo": ModelInfo(
+                      modelName: value.modelName!,
+                      images: value.images!,
+                      description: value.modelDescription!,
+                      audioPath: value.audioPath!)
+                }));
       }
     });
   }
