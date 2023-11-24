@@ -23,20 +23,19 @@ class ExhibitionInfo {
     return _instance;
   }
 
-  Map<int, ExhibitInfo> exhibitionData = {};
+  static Map<int, ExhibitInfo> exhibitionData = {};
+
   ExhibitionInfo._internal();
 
-  ExhibitionInfo.fromJson(List<dynamic> json)
-      : exhibitionData = {
-          for (var exhibitItem
-              in ExhibitionInfoJSON.fromJson(json).exhibitInfoJSONList)
-            exhibitItem.id: ExhibitInfo(
-                exhibitItem.images,
-                exhibitItem.model,
-                exhibitItem.exhibitDescription,
-                exhibitItem.exhibitAudio)
-          // convertFromListToMap(
-          //     exhibitItem.exhibitDescriptionInfoJSONList),
-          // convertFromListToMap(exhibitItem.exhibitAudioInfoJSONList))
-        };
+  ExhibitionInfo.fromJson(List<dynamic> json) {
+    ExhibitionInfo.exhibitionData = {
+      for (var exhibitItem
+          in ExhibitionInfoJSON.fromJson(json).exhibitInfoJSONList)
+        exhibitItem.id: ExhibitInfo(exhibitItem.images, exhibitItem.model,
+            exhibitItem.exhibitDescription, exhibitItem.exhibitAudio)
+      // convertFromListToMap(
+      //     exhibitItem.exhibitDescriptionInfoJSONList),
+      // convertFromListToMap(exhibitItem.exhibitAudioInfoJSONList))
+    };
+  }
 }

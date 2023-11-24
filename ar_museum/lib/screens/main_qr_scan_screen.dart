@@ -19,8 +19,8 @@ class MainQRScanScreen extends BaseQRScreen {
 
 class _MainQRScanState extends BaseQRScreenState<MainQRScanScreen> {
   String url =
-      "http://188.232.151.86:87/test?locale=ru_RU&exhibitionId=1&museumId=1";
-
+      "http://188.232.151.86:87";
+  // ?locale=ru_RU&exhibitionId=1&museumId=1
   @override
   Widget build(BuildContext context) {
     return super.buildQRView(
@@ -30,7 +30,11 @@ class _MainQRScanState extends BaseQRScreenState<MainQRScanScreen> {
   Future<String> _sendJSON(String url, Map<String, dynamic> json) async {
     // url = await AppConfig.get("mainQRURL");
     // final uri = Uri.http(url, '', json);
-    var request = await httpClient!.getUrl(Uri.parse(url));
+
+    final locale = Localizations.localeOf(context);
+    json["locale"] = "${locale.languageCode}_${locale.countryCode}";
+
+    var request = await httpClient!.getUrl(Uri.http(url, "test", json));
     request.headers.set('content-type', 'application/json');
     // request. = utf8.encode(jsonEncode(json));
     var response = await request.close();
@@ -66,33 +70,10 @@ class _MainQRScanState extends BaseQRScreenState<MainQRScanScreen> {
         }
 
         _sendJSON(url, json).then((value) {
-          print(value);
           ExhibitionInfo.fromJson(jsonDecode(value));
           Navigator.pushNamed(context, "/modelQR");
         });
       }
     });
-  }
-
-  void _MOCKED_onQRViewCreated(QRViewController controller) {
-    setState(() {
-      super.controller = controller;
-    });
-    controller.stopCamera();
-    var json = {"exhibitionId": 1, "museumId": 1, "locale": "ru_RU"};
-
-    if (kDebugMode) {
-      print(json);
-    }
-
-    _sendJSON(url, json).then((value) {
-      print(value);
-      ExhibitionInfo.fromJson(jsonDecode(value));
-      Navigator.pushNamed(context, "/modelQR");
-    });
-
-    if (kDebugMode) {
-      print(ExhibitionInfo());
-    }
   }
 }

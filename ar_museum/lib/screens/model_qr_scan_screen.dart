@@ -1,9 +1,15 @@
+import 'dart:ffi';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:path_provider/path_provider.dart';
+
+// import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 // import '../util/app_config.dart';
 import '../util/exhibition_info.dart';
+import '../util/model_data.dart';
 import 'base_qr_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -31,15 +37,26 @@ class _QRScanState extends BaseQRScreenState<QRScanScreen> {
         subscription.cancel();
         controller.stopCamera();
 
-        // unityWidgetController
-        //     .postMessage("XR Origin", "downloadFrom",
-        //         ExhibitionInfo().exhibitionData[0]?.modelURL)
-        //     ?.then((value) =>
-      Navigator.pushNamed(context, "/arScreen");
+        final id = int.parse(event.code!);
+
+        Navigator.pushNamed(context, "/arScreen", arguments: id);
 
         //   _downloadAndUnpack("$url/${event.code!}", "Archive.zip")
         //       .then((value) => Navigator.pushNamed(context, "/modelQR"));
       }
     });
   }
+
+  // Future<ModelData> _downloadModelInfo(int id) async {
+  //   final info = ExhibitionInfo.exhibitionData[id];
+  //   var directory = Directory(
+  //       "${(Platform.isAndroid ? await getExternalStorageDirectory() //FOR ANDROID
+  //               : await getApplicationSupportDirectory() //FOR IOS
+  //           )!.path}$id");
+  //
+  //   var request = await httpClient!.getUrl();
+  //   var response = await request.close();
+  //   var bytes = await consolidateHttpClientResponseBytes(response);
+  //   String dir = (await getApplicationDocumentsDirectory()).path;
+  // }
 }

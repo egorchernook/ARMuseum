@@ -25,6 +25,15 @@ public class AssetsDownloader : MonoBehaviour
         else
         {
             assetBundle = DownloadHandlerAssetBundle.GetContent(unityWebRequest);
+            if (assetBundle == null)
+                Debug.Log("Failed to load AssetBundle!");
+            else
+            {
+                foreach (string name in assetBundle.GetAllAssetNames())
+                {
+                    Debug.Log(name);
+                }
+            }
         }
     }
 }

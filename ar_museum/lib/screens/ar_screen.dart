@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +37,9 @@ class _ARScreenState extends State<ARScreen>
   void onUnityCreated(controller) {
     unityWidgetController = controller;
 
+    final arg = ModalRoute.of(context)!.settings.arguments as int;
     unityWidgetController.postMessage("XR Origin", "downloadFrom",
-        ExhibitionInfo().exhibitionData[0]?.modelURL);
+        ExhibitionInfo.exhibitionData[arg]?.modelURL);
   }
 
   @override
