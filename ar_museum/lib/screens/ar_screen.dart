@@ -6,12 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 
 import '../util/exhibition_info.dart';
+import '../util/model_info.dart';
 
 // import 'model_info.dart';
 
 class ARScreen extends StatefulWidget {
-  // ModelInfo modelInfo;
-  // ARScreen({Key? key, required this.modelInfo}) : super(key: key);
   const ARScreen({Key? key}) : super(key: key);
 
   @override
@@ -23,6 +22,9 @@ class _ARScreenState extends State<ARScreen>
   late UnityWidgetController unityWidgetController;
   static final GlobalKey<ScaffoldState> _scaffoldKey =
       GlobalKey<ScaffoldState>();
+
+  late final ModelInfo modelInfo;
+  late final Map<String, dynamic> arguments;
 
   late final animationController = AnimationController(
       vsync: this, duration: const Duration(milliseconds: 200))
@@ -37,9 +39,9 @@ class _ARScreenState extends State<ARScreen>
   void onUnityCreated(controller) {
     unityWidgetController = controller;
 
-    final arg = ModalRoute.of(context)!.settings.arguments as int;
+    final id = arguments["id"] as int;
     unityWidgetController.postMessage("XR Origin", "downloadFrom",
-        ExhibitionInfo.exhibitionData[arg]?.modelURL);
+        ExhibitionInfo.exhibitionData[id]?.modelURL);
   }
 
   @override
@@ -53,6 +55,10 @@ class _ARScreenState extends State<ARScreen>
   @override
   void initState() {
     super.initState();
+
+    arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    modelInfo = arguments["modelInfo"] as ModelInfo;
   }
 
   bool isLikeClicked = false;
@@ -124,11 +130,7 @@ class _ARScreenState extends State<ARScreen>
                             ? Icons.favorite
                             : Icons.favorite_border))),
               ])),
-          Container(
-            width: 300,
-            height: 50,
-            color: Colors.redAccent,
-          )
+          modelInfo
         ])
       ]),
     ));

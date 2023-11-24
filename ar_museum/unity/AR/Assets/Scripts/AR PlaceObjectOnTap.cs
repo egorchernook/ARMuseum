@@ -47,7 +47,7 @@ public class AR_PlaceObjectOnTap : MonoBehaviour
             {
                 return;
             }
-            gameObjectToInstantiate = assetsDownloader.assetBundle.LoadAsset<GameObject>("Rhino");
+            gameObjectToInstantiate = assetsDownloader.assetBundle.LoadAsset<GameObject>("model");
             return;
         }
         if (!TryGetTouchPosition(out Vector2 touchPosition))

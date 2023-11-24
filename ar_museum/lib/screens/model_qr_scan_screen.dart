@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -39,24 +41,55 @@ class _QRScanState extends BaseQRScreenState<QRScanScreen> {
 
         final id = int.parse(event.code!);
 
-        Navigator.pushNamed(context, "/arScreen", arguments: id);
-
-        //   _downloadAndUnpack("$url/${event.code!}", "Archive.zip")
-        //       .then((value) => Navigator.pushNamed(context, "/modelQR"));
+        _downloadModelInfo(id).then((value) => Navigator.pushNamed(
+            context, "/arScreen",
+            arguments: <String, dynamic>{"id": id, "modelData": value}));
       }
     });
   }
 
-  // Future<ModelData> _downloadModelInfo(int id) async {
-  //   final info = ExhibitionInfo.exhibitionData[id];
-  //   var directory = Directory(
-  //       "${(Platform.isAndroid ? await getExternalStorageDirectory() //FOR ANDROID
-  //               : await getApplicationSupportDirectory() //FOR IOS
-  //           )!.path}$id");
-  //
-  //   var request = await httpClient!.getUrl();
-  //   var response = await request.close();
-  //   var bytes = await consolidateHttpClientResponseBytes(response);
-  //   String dir = (await getApplicationDocumentsDirectory()).path;
-  // }
+  Future<ModelData> _downloadModelInfo(int id) async {
+    final info = ExhibitionInfo.exhibitionData[id]!;
+    const audioFileFilename = "audio.mp3";
+    const imagesFolder = "images";
+
+    var directory = Directory(
+        "${(Platform.isAndroid ? await getExternalStorageDirectory() //FOR ANDROID
+                : await getApplicationSupportDirectory() //FOR IOS
+            )!.path}$id");
+
+    var request1 = await httpClient!.getUrl(Uri.parse(info.exhibitAudioURL));
+    var response1 = await request1.close();
+    final bytes = await consolidateHttpClientResponseBytes(response1);
+    var file1 = File("$directory/$audioFileFilename");
+    file1.writeAsBytesSync(bytes);
+    if (kDebugMode) {
+      print("Downloading finished, path: $directory/$audioFileFilename");
+    }
+
+    var request2 =
+        await httpClient!.getUrl(Uri.parse(info.exhibitDescriptionURL));
+    var response2 = await request2.close();
+    final json =
+        await response2.transform(utf8.decoder).join() as Map<String, dynamic>;
+    final name = json["name"] as String;
+    final description = json["description"] as String;
+
+    var imagesPaths = <String>[];
+    var idx = 0;
+    for (var imageUrl in info.imagesURL) {
+      var request = await httpClient!.getUrl(Uri.parse(imageUrl));
+      var response = await request.close();
+      final bytes = await consolidateHttpClientResponseBytes(response);
+      var file = File("$directory/$imagesFolder/$idx");
+      file.writeAsBytesSync(bytes);
+      if (kDebugMode) {
+        print("Downloading finished, path: ${file.path}");
+      }
+      imagesPaths.add(file.path);
+      idx += 1;
+    }
+
+    return ModelData(name, description, file1.path, imagesPaths);
+  }
 }

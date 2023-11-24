@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-import '../util/app_config.dart';
+// import '../util/app_config.dart';
 import '../util/exhibition_info.dart';
 import 'base_qr_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -18,8 +18,9 @@ class MainQRScanScreen extends BaseQRScreen {
 }
 
 class _MainQRScanState extends BaseQRScreenState<MainQRScanScreen> {
-  String url =
-      "http://188.232.151.86:87";
+  static const host = "188.232.151.86";
+  static const port = 87;
+
   // ?locale=ru_RU&exhibitionId=1&museumId=1
   @override
   Widget build(BuildContext context) {
@@ -27,14 +28,17 @@ class _MainQRScanState extends BaseQRScreenState<MainQRScanScreen> {
         context, _onQRViewCreated, AppLocalizations.of(context)!.mainQRText);
   }
 
-  Future<String> _sendJSON(String url, Map<String, dynamic> json) async {
-    // url = await AppConfig.get("mainQRURL");
-    // final uri = Uri.http(url, '', json);
-
+  Future<String> _sendJSON(Map<String, dynamic> json) async {
     final locale = Localizations.localeOf(context);
     json["locale"] = "${locale.languageCode}_${locale.countryCode}";
 
-    var request = await httpClient!.getUrl(Uri.http(url, "test", json));
+    print("Бляяяя");
+    var uri = Uri.http("$host:$port", "test", json);
+    print(uri);
+    print(uri.path);
+    print(uri.port);
+    print(uri.queryParameters);
+    var request = await httpClient!.getUrl(uri);
     request.headers.set('content-type', 'application/json');
     // request. = utf8.encode(jsonEncode(json));
     var response = await request.close();
@@ -69,7 +73,7 @@ class _MainQRScanState extends BaseQRScreenState<MainQRScanScreen> {
           print(json);
         }
 
-        _sendJSON(url, json).then((value) {
+        _sendJSON(json).then((value) {
           ExhibitionInfo.fromJson(jsonDecode(value));
           Navigator.pushNamed(context, "/modelQR");
         });

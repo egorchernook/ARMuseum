@@ -3,17 +3,20 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class ModelInfo extends StatefulWidget {
   final String modelName;
   final String description;
+  final String audioPath;
   final List<String> images;
 
   const ModelInfo(
       {super.key,
       required this.modelName,
       required this.images,
-      required this.description});
+      required this.description,
+      required this.audioPath});
 
   @override
   State<ModelInfo> createState() => _ModelInfoState();
@@ -21,7 +24,9 @@ class ModelInfo extends StatefulWidget {
 
 class _ModelInfoState extends State<ModelInfo> {
   bool _expanded = false;
+  bool _audioPlaying = false;
   int _activeIndex = 0;
+  AudioPlayer? audioPlayer;
 
   void _handleExpand() {
     setState(() {
@@ -30,7 +35,8 @@ class _ModelInfoState extends State<ModelInfo> {
   }
 
   Widget _buildContent() {
-    return Column(
+    return Container(
+        child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CarouselSlider.builder(
@@ -49,7 +55,7 @@ class _ModelInfoState extends State<ModelInfo> {
         _buildIndicator(),
         Expanded(child: _buildModelDescription())
       ],
-    );
+    ));
   }
 
   Widget _buildModelDescription() {
@@ -67,18 +73,36 @@ class _ModelInfoState extends State<ModelInfo> {
                 offset: Offset(0.0, 0.0),
               )
             ]),
-        child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
-            child: SingleChildScrollView(
-              child: Text(
-                widget.description,
-                softWrap: true,
-                style: const TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: const Icon(Icons.volume_up),
+                onPressed: () async {
+                  if (_audioPlaying) {
+                    audioPlayer!.pause();
+                  } else {
+                    await audioPlayer!.play(DeviceFileSource(widget.audioPath));
+                  }
+                },
               ),
-            )));
+            ),
+            Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                child: SingleChildScrollView(
+                  child: Text(
+                    widget.description,
+                    softWrap: true,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                )),
+          ],
+        ));
   }
 
   Widget _buildIndicator() => AnimatedSmoothIndicator(
@@ -98,6 +122,10 @@ class _ModelInfoState extends State<ModelInfo> {
 
   @override
   Widget build(BuildContext context) {
+    audioPlayer = AudioPlayer();
+    audioPlayer!.onPlayerStateChanged.listen((event) {
+      _audioPlaying = event == PlayerState.playing;
+    });
     return Align(
         alignment: Alignment.bottomCenter,
         child: Container(
