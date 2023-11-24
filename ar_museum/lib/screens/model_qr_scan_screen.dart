@@ -51,27 +51,27 @@ class _QRScanState extends BaseQRScreenState<QRScanScreen> {
   Future<ModelData> _downloadModelInfo(int id) async {
     final info = ExhibitionInfo.exhibitionData[id]!;
     const audioFileFilename = "audio.mp3";
-    const imagesFolder = "images";
 
     var directory = Directory(
-        "${(Platform.isAndroid ? await getExternalStorageDirectory() //FOR ANDROID
-                : await getApplicationSupportDirectory() //FOR IOS
-            )!.path}$id");
+            "${(Platform.isAndroid ? await getExternalStorageDirectory() //FOR ANDROID
+                    : await getApplicationSupportDirectory() //FOR IOS
+                )!.path}/$id")
+        .path;
 
     var request1 = await httpClient!.getUrl(Uri.parse(info.exhibitAudioURL));
     var response1 = await request1.close();
     final bytes = await consolidateHttpClientResponseBytes(response1);
-    var file1 = File("$directory/$audioFileFilename");
+    var file1 = File("${directory}_$audioFileFilename");
     file1.writeAsBytesSync(bytes);
     if (kDebugMode) {
-      print("Downloading finished, path: $directory/$audioFileFilename");
+      print("Downloading finished, path: ${directory}_$audioFileFilename");
     }
 
     var request2 =
         await httpClient!.getUrl(Uri.parse(info.exhibitDescriptionURL));
     var response2 = await request2.close();
-    final json =
-        await response2.transform(utf8.decoder).join() as Map<String, dynamic>;
+    final json = jsonDecode(await response2.transform(utf8.decoder).join())
+        as Map<String, dynamic>;
     final name = json["name"] as String;
     final description = json["description"] as String;
 
@@ -81,7 +81,7 @@ class _QRScanState extends BaseQRScreenState<QRScanScreen> {
       var request = await httpClient!.getUrl(Uri.parse(imageUrl));
       var response = await request.close();
       final bytes = await consolidateHttpClientResponseBytes(response);
-      var file = File("$directory/$imagesFolder/$idx");
+      var file = File("${directory}_image_$idx");
       file.writeAsBytesSync(bytes);
       if (kDebugMode) {
         print("Downloading finished, path: ${file.path}");

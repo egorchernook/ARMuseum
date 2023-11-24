@@ -32,12 +32,7 @@ class _MainQRScanState extends BaseQRScreenState<MainQRScanScreen> {
     final locale = Localizations.localeOf(context);
     json["locale"] = "${locale.languageCode}_${locale.countryCode}";
 
-    print("Бляяяя");
     var uri = Uri.http("$host:$port", "test", json);
-    print(uri);
-    print(uri.path);
-    print(uri.port);
-    print(uri.queryParameters);
     var request = await httpClient!.getUrl(uri);
     request.headers.set('content-type', 'application/json');
     // request. = utf8.encode(jsonEncode(json));
