@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
               "/arScreen": (context) => const ARScreen(),
               "/unityLoad": (context) => const UnityLoadScreen()
             },
-            initialRoute: "/unityLoad",
+            initialRoute: "/languageSettings",
           );
         });
   }

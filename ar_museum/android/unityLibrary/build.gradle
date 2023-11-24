@@ -8,7 +8,7 @@ dependencies {
     implementation(name: 'NativeGallery', ext:'aar')
     implementation(name: 'ARPresto', ext:'aar')
     implementation(name: 'unityandroidpermissions', ext:'aar')
-//    implementation project('xrmanifest.androidlib')
+    implementation project('xrmanifest.androidlib')
 
 }
 
@@ -30,7 +30,7 @@ android {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
         }
         versionCode 1
-        versionName '0.7'
+        versionName '0.9'
         consumerProguardFiles 'proguard-unity.txt'
     }
 
