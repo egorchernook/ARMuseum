@@ -2,8 +2,10 @@ import 'package:ar_museum/l10n/all_locales.dart';
 import 'package:ar_museum/screens/main_qr_scan_screen.dart';
 import 'package:ar_museum/screens/model_qr_scan_screen.dart';
 import 'package:ar_museum/screens/unity_load_screen.dart';
+import 'package:ar_museum/util/app_config.dart';
 import 'package:ar_museum/util/locale_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -12,6 +14,10 @@ import 'screens/ar_screen.dart';
 import 'screens/language_settings_screen.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  AppConfig.setContent(await rootBundle.loadString(
+    'assets/config/config.json',
+  ));
   runApp(const MyApp());
 }
 

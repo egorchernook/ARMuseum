@@ -1,21 +1,20 @@
 import 'dart:convert';
-import 'package:flutter/services.dart';
 
 class AppConfig {
-  static AppConfig? _instance;
-  static late String _content;
+  static final AppConfig _instance = AppConfig._internal();
+  static String? _content;
+  AppConfig._internal();
 
-  static Future<AppConfig> getInstance() async {
-    if (_instance == null) {
-      AppConfig._content = await rootBundle.loadString(
-        'assets/config/config.json',
-      );
-    }
-    return _instance!;
+  // Please don`t use it more then once && outside main
+  static void setContent(String content) {
+    AppConfig._content = content;
   }
 
-  dynamic get(String key) {
-    final json = jsonDecode(_content);
+  static dynamic get(String key) {
+    if(_content == null){
+      return null;
+    }
+    final json = jsonDecode(_content!);
     return json[key];
   }
 }

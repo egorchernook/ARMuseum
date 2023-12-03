@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 // import '../util/app_config.dart';
+import '../util/app_config.dart';
 import '../util/exhibition_info.dart';
 import 'base_qr_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -18,8 +19,8 @@ class MainQRScanScreen extends BaseQRScreen {
 }
 
 class _MainQRScanState extends BaseQRScreenState<MainQRScanScreen> {
-  static const host = "188.232.151.86";
-  static const port = 87;
+  // static const host = "188.232.151.86";
+  // static const port = 87;
 
   // ?locale=ru_RU&exhibitionId=1&museumId=1
   @override
@@ -32,7 +33,9 @@ class _MainQRScanState extends BaseQRScreenState<MainQRScanScreen> {
     final locale = Localizations.localeOf(context);
     json["locale"] = "${locale.languageCode}_${locale.countryCode}";
 
-    var uri = Uri.http("$host:$port", "test", json);
+    var uri = Uri.http(AppConfig.get("mainQRAuthority"),
+        AppConfig.get("mainQRUnencodedPath"), json);
+    print(uri);
     var request = await httpClient!.getUrl(uri);
     request.headers.set('content-type', 'application/json');
     // request. = utf8.encode(jsonEncode(json));

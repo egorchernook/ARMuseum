@@ -1,5 +1,4 @@
 {
-  "backURL": "",
-  "mainQRURL": "",
-  "modelQRURL": ""
+  "mainQRAuthority": "",
+  "mainQRUnencodedPath": ""
 }
