@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -51,10 +52,9 @@ abstract class BaseQRScreenState<Screen extends BaseQRScreen>
 
   Widget buildQRView(BuildContext context,
       Function(QRViewController) onQRViewCreated, String text) {
-    final scanArea = (MediaQuery.of(context).size.width < 400 ||
-            MediaQuery.of(context).size.height < 400)
-        ? 150.0
-        : 280.0;
+    final scanArea = math.min(MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height) *
+        0.675;
     return Scaffold(
         body: Stack(children: [
       QRView(
