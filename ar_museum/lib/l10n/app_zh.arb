@@ -1,0 +1,10 @@
+{
+ "language": "汉语",
+ "chooseLanguage": "选择你的语言",
+ "mainQRText": "扫描展会二维码",
+  "thx": "谢谢",
+  "modelQRText": "扫描展品二维码",
+  "screenshotTaken": "屏幕截图已保存到图库",
+  "apply": "申请",
+  "noPermission": "没有许可"
+}

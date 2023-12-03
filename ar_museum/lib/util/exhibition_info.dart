@@ -1,6 +1,3 @@
-import 'dart:ffi';
-import 'dart:ui';
-
 import 'exhibition_info_json.dart';
 
 class ExhibitInfo {
